@@ -42,7 +42,24 @@
 <h2>검사일보 등록</h2>
 <form id="inspectionForm">
   <label>검사일자<input type="date" name="검사일자" id="inspectionDate" required></label>
-  <label>검사자1<input type="text" name="검사자1"></label>
+  <label>검사자1
+  <select name="검사자1">
+    <option value="">선택하세요</option>
+    <option value="오윤정">오윤정</option>
+    <option value="김미선">김미선</option>
+    <option value="송경옥">송경옥</option>
+    <option value="권혜영">권혜영</option>
+    <option value="김갑선">김갑선</option>
+    <option value="진정화">진정화</option>
+    <option value="이유선">이유선</option>
+    <option value="강란희">강란희</option>
+    <option value="차찬이">차찬이</option>
+    <option value="서성자">서성자</option>
+    <option value="전귀옥">전귀옥</option>
+    <option value="양혜정">양혜정</option>
+    <option value="기타">기타</option>
+  </select>
+</label>
   <label>검사자2
   <select name="검사자2">
     <option value="">선택하세요</option>
@@ -89,7 +106,7 @@
   <label>PPM<input type="number" name="PPM" id="ppm" readonly></label>
   <label>비고<input type="text" name="비고"></label>
 
-  <button type="submit">전송</button>
+  <button type="submit">제출</button>
 </form>
 
 <!-- 숫자 키패드 팝업 -->
