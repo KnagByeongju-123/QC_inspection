@@ -92,16 +92,18 @@
   <label id="partNumberSelectLabel">품번<select name="품번" id="partNumberSelect" required></select></label>
   <label id="customPartLabel">품번 직접 입력<input type="text" name="품번_기타" id="customPart"></label>
 
-  <label>검사수량<input type="number" name="검사수량" inputmode="numeric" pattern="[0-9]*" required style="font-size: 28px; height: 48px;"></label>
+  <label>검사수량
+  <input type="number" name="검사수량" readonly inputmode="numeric" pattern="[0-9]*" required style="font-size: 28px; height: 48px;">
+</label>
 
-  <label>불량유형1<input type="number" name="불량유형1"></label>
-  <label>불량유형2<input type="number" name="불량유형2"></label>
-  <label>불량유형3<input type="number" name="불량유형3"></label>
-  <label>불량유형4<input type="number" name="불량유형4"></label>
-  <label>불량유형5<input type="number" name="불량유형5"></label>
-  <label>불량유형6<input type="number" name="불량유형6"></label>
-  <label>불량유형7<input type="number" name="불량유형7"></label>
-  <label>불량유형8<input type="number" name="불량유형8"></label>
+<label>불량유형1<input type="number" name="불량유형1" readonly></label>
+<label>불량유형2<input type="number" name="불량유형2" readonly></label>
+<label>불량유형3<input type="number" name="불량유형3" readonly></label>
+<label>불량유형4<input type="number" name="불량유형4" readonly></label>
+<label>불량유형5<input type="number" name="불량유형5" readonly></label>
+<label>불량유형6<input type="number" name="불량유형6" readonly></label>
+<label>불량유형7<input type="number" name="불량유형7" readonly></label>
+<label>불량유형8<input type="number" name="불량유형8" readonly></label>
 
   <label>불량합계<input type="number" name="불량합계" id="totalDefects" readonly></label>
   <label>PPM<input type="number" name="PPM" id="ppm" readonly></label>
