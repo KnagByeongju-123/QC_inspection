@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>검사일보 등록</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      max-width: 250px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      width: 100%;
+    }
+    #customClientLabel, #customModelLabel, #customPartLabel {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>검사일보 등록</h2>
+<form id="inspectionForm">
+  <label>검사일자<input type="date" name="검사일자" id="inspectionDate" required></label>
+  <label>검사자1<input type="text" name="검사자1"></label>
+  <label>검사자2
+  <select name="검사자2">
+    <option value="">선택하세요</option>
+    <option value="외1명">외1명</option>
+    <option value="외2명">외2명</option>
+    <option value="외3명">외3명</option>
+    <option value="외4명">외4명</option>
+    <option value="외5명">외5명</option>
+    <option value="외6명">외6명</option>
+    <option value="외다수">외다수</option>
+  </select>
+</label>
+
+  <label>고객사
+    <select name="고객사" id="clientSelect" required>
+      <option value="">선택하세요</option>
+      <option value="ATC">ATC</option>
+      <option value="SKF씰">SKF씰</option>
+      <option value="세동">세동</option>
+      <option value="일진">일진</option>
+      <option value="기타">기타</option>
+    </select>
+  </label>
+  <label id="customClientLabel">고객사 직접 입력<input type="text" name="고객사_기타" id="customClient"></label>
+
+  <label id="modelSelectLabel">기종명<select name="기종명" id="modelSelect" required></select></label>
+  <label id="customModelLabel">기종명 직접 입력<input type="text" name="기종명_기타" id="customModel"></label>
+
+  <label id="partNumberSelectLabel">품번<select name="품번" id="partNumberSelect" required></select></label>
+  <label id="customPartLabel">품번 직접 입력<input type="text" name="품번_기타" id="customPart"></label>
+
+  <label>검사수량<input type="number" name="검사수량" inputmode="numeric" pattern="[0-9]*" required style="font-size: 28px; height: 48px;"></label>
+
+  <label>불량유형1<input type="number" name="불량유형1"></label>
+  <label>불량유형2<input type="number" name="불량유형2"></label>
+  <label>불량유형3<input type="number" name="불량유형3"></label>
+  <label>불량유형4<input type="number" name="불량유형4"></label>
+  <label>불량유형5<input type="number" name="불량유형5"></label>
+  <label>불량유형6<input type="number" name="불량유형6"></label>
+  <label>불량유형7<input type="number" name="불량유형7"></label>
+  <label>불량유형8<input type="number" name="불량유형8"></label>
+
+  <label>불량합계<input type="number" name="불량합계" id="totalDefects" readonly></label>
+  <label>PPM<input type="number" name="PPM" id="ppm" readonly></label>
+  <label>비고<input type="text" name="비고"></label>
+
+  <button type="submit">전송</button>
+</form>
+
+<!-- 숫자 키패드 팝업 -->
+<div id="numberPad" style="
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #888;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+">
+  <div style="display: grid; grid-template-columns: repeat(3, 80px); gap: 15px; text-align: center;">
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">1</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">2</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">3</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">4</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">5</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">6</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">7</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">8</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">9</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">←</button>
+    <button class="pad-btn" style="font-size: 24px; height: 80px;">0</button>
+    <button class="pad-done" style="font-size: 24px; height: 80px;">완료</button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const clientSelect = document.getElementById("clientSelect");
+    const customClientLabel = document.getElementById("customClientLabel");
+    const customClientInput = document.getElementById("customClient");
+    const modelSelect = document.getElementById("modelSelect");
+    const modelSelectLabel = document.getElementById("modelSelectLabel");
+    const partNumberSelect = document.getElementById("partNumberSelect");
+    const partNumberSelectLabel = document.getElementById("partNumberSelectLabel");
+    const customModelLabel = document.getElementById("customModelLabel");
+    const customModelInput = document.getElementById("customModel");
+    const customPartLabel = document.getElementById("customPartLabel");
+    const customPartInput = document.getElementById("customPart");
+    const totalDefectsField = document.getElementById("totalDefects");
+    const ppmField = document.getElementById("ppm");
+
+    const modelOptions = {
+      "ATC": ["ATC-1", "ATC-2", "ATC-3", "ATC-4", "ATC-5"],
+      "SKF씰": ["SKF-1", "SKF-2", "SKF-3", "SKF-4", "SKF-5"],
+      "세동": ["세동-1", "세동-2", "세동-3", "세동-4", "세동-5"],
+      "일진": ["일진-1", "일진-2", "일진-3", "일진-4", "일진-5"]
+    };
+
+    const partNumberOptions = {
+      "ATC": Array.from({length: 30}, (_, i) => `ATC-P${i + 1}`),
+      "SKF씰": Array.from({length: 50}, (_, i) => `SKF-P${i + 1}`),
+      "세동": Array.from({length: 10}, (_, i) => `세동-P${i + 1}`),
+      "일진": Array.from({length: 10}, (_, i) => `일진-P${i + 1}`)
+    };
+
+    clientSelect.addEventListener("change", function () {
+      const selectedClient = this.value;
+      const isEtc = selectedClient === "기타";
+
+      customClientLabel.style.display = isEtc ? "block" : "none";
+      customClientInput.required = isEtc;
+      modelSelectLabel.style.display = isEtc ? "none" : "block";
+      partNumberSelectLabel.style.display = isEtc ? "none" : "block";
+      customModelLabel.style.display = isEtc ? "block" : "none";
+      customModelInput.required = isEtc;
+      customPartLabel.style.display = isEtc ? "block" : "none";
+      customPartInput.required = isEtc;
+
+      if (!isEtc) {
+        modelSelect.innerHTML = modelOptions[selectedClient].map(m => `<option value="${m}">${m}</option>`).join('') + '<option value="기타">기타</option>';
+        partNumberSelect.innerHTML = partNumberOptions[selectedClient].map(p => `<option value="${p}">${p}</option>`).join('') + '<option value="기타">기타</option>';
+      } else {
+        modelSelect.innerHTML = partNumberSelect.innerHTML = "";
+      }
+    });
+
+    modelSelect.addEventListener("change", function () {
+      customModelLabel.style.display = this.value === "기타" ? "block" : "none";
+      customModelInput.required = this.value === "기타";
+    });
+
+    partNumberSelect.addEventListener("change", function () {
+      customPartLabel.style.display = this.value === "기타" ? "block" : "none";
+      customPartInput.required = this.value === "기타";
+    });
+
+    const defectInputs = [...Array(8)].map((_, i) => document.querySelector(`[name='불량유형${i + 1}']`));
+    const qtyInput = document.querySelector("[name='검사수량']");
+
+    [...defectInputs, qtyInput].forEach(el => {
+      el.addEventListener("input", () => {
+        const qty = parseInt(qtyInput.value || 0);
+        const total = defectInputs.reduce((sum, el) => sum + parseInt(el.value || 0), 0);
+        totalDefectsField.value = total;
+        ppmField.value = qty > 0 ? Math.round((total / qty) * 1_000_000) : 0;
+      });
+    });
+
+    document.getElementById("inspectionForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      if (formData.get("고객사") === "기타") {
+        formData.set("고객사", formData.get("고객사_기타"));
+        formData.set("기종명", formData.get("기종명_기타"));
+        formData.set("품번", formData.get("품번_기타"));
+      } else {
+        if (formData.get("기종명") === "기타") {
+          formData.set("기종명", formData.get("기종명_기타"));
+        }
+        if (formData.get("품번") === "기타") {
+          formData.set("품번", formData.get("품번_기타"));
+        }
+      }
+
+      formData.delete("고객사_기타");
+      formData.delete("기종명_기타");
+      formData.delete("품번_기타");
+
+      const url = "https://script.google.com/macros/s/AKfycbzUVVQgtVn5Cq6mHHR0dIPCWD9UdEuLGCzTtH8YHZ6Z7qRbOc5sPf5RNHg-k9NRH5fYfg/exec";
+      fetch(url, { method: "POST", body: formData })
+        .then(response => response.text())
+        .then(data => {
+          alert("제출이 완료되었습니다.");
+          this.reset();
+          customClientLabel.style.display = "none";
+          customModelLabel.style.display = "none";
+          customPartLabel.style.display = "none";
+          modelSelect.innerHTML = '<option value="">고객사를 먼저 선택하세요</option>';
+          partNumberSelect.innerHTML = '<option value="">고객사를 먼저 선택하세요</option>';
+          totalDefectsField.value = "";
+          ppmField.value = "";
+        })
+        .catch(error => alert("제출에 실패했습니다. 다시 시도해주세요."));
+    });
+  });
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById("inspectionDate").value = `${yyyy}-${mm}-${dd}`;
+
+  const numberPad = document.getElementById("numberPad");
+  let currentInput = null;
+
+  function openNumberPad(inputElement) {
+    currentInput = inputElement;
+    numberPad.style.display = "block";
+  }
+
+  document.querySelector("input[name='검사수량']").addEventListener("focus", function () {
+    openNumberPad(this);
+  });
+
+  [...Array(8)].forEach((_, i) => {
+    document.querySelector(`input[name='불량유형${i + 1}']`).addEventListener("focus", function () {
+      openNumberPad(this);
+    });
+  });
+
+  document.querySelectorAll(".pad-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (!currentInput) return;
+      const val = btn.textContent;
+      if (val === "←") {
+        currentInput.value = currentInput.value.slice(0, -1);
+      } else {
+        currentInput.value += val;
+      }
+      currentInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  document.querySelector(".pad-done").addEventListener("click", () => {
+    numberPad.style.display = "none";
+    currentInput = null;
+  });
+
+</script>
+
+</body>
+</html>
