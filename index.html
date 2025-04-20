@@ -241,14 +241,37 @@
         .then(response => response.text())
         .then(data => {
           alert("제출이 완료되었습니다.");
-          this.reset();
-          customClientLabel.style.display = "none";
-          customModelLabel.style.display = "none";
-          customPartLabel.style.display = "none";
-          modelSelect.innerHTML = '<option value="">고객사를 먼저 선택하세요</option>';
-          partNumberSelect.innerHTML = '<option value="">고객사를 먼저 선택하세요</option>';
-          totalDefectsField.value = "";
-          ppmField.value = "";
+          // 수동 초기화
+document.getElementById("inspectionDate").value = new Date().toISOString().slice(0, 10);
+
+// 초기화 대상들만 비우기
+document.querySelector("input[name='검사수량']").value = "";
+[...Array(8)].forEach((_, i) => {
+  document.querySelector(`input[name='불량유형${i + 1}']`).value = "";
+});
+document.getElementById("totalDefects").value = "";
+document.getElementById("ppm").value = "";
+document.querySelector("input[name='비고']").value = "";
+
+// 기타 입력 필드 리셋
+document.getElementById("customClient").value = "";
+document.getElementById("customModel").value = "";
+document.getElementById("customPart").value = "";
+
+// 기타 필드 상태 비활성화
+customClientLabel.style.display = "none";
+customModelLabel.style.display = "none";
+customPartLabel.style.display = "none";
+
+// 선택 옵션은 그대로 유지하되, 기타 선택 시 빈 목록 정리
+if (clientSelect.value === "기타") {
+  modelSelect.innerHTML = "";
+  partNumberSelect.innerHTML = "";
+} else {
+  modelSelect.value = "";
+  partNumberSelect.value = "";
+}
+
         })
         .catch(error => alert("제출에 실패했습니다. 다시 시도해주세요."));
     });
