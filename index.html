@@ -36,13 +36,40 @@
     #customClientLabel, #customModelLabel, #customPartLabel {
       display: none;
     }
+    #numberPad {
+      display: none;
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 2px solid #888;
+      border-radius: 10px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    #numberPad .pad-btn, #numberPad .pad-done {
+      font-size: 25px;
+      height: 50px;
+      width: 40px;
+      margin: 1px 5px 1px 0;
+    }
+    #numberPad .pad-done {
+      font-size: 20px;
+    }
   </style>
 </head>
 <body>
 
 <h2>검사일보 등록</h2>
 <form id="inspectionForm">
-  <label>검사일자<input type="date" name="검사일자" id="inspectionDate" required></label>
+  <label>검사일자
+    <input type="date" name="검사일자" id="inspectionDate" required>
+  </label>
+  <label>생산일자
+    <input type="date" name="생산일자" id="productionDate" required>
+  </label>
   <label>검사자1
     <select name="검사자1">
       <option value="">선택하세요</option>
@@ -84,13 +111,23 @@
       <option value="기타">기타</option>
     </select>
   </label>
-  <label id="customClientLabel">고객사 직접 입력<input type="text" name="고객사_기타" id="customClient"></label>
+  <label id="customClientLabel">고객사 직접 입력
+    <input type="text" name="고객사_기타" id="customClient">
+  </label>
 
-  <label id="modelSelectLabel">기종명<select name="기종명" id="modelSelect" required></select></label>
-  <label id="customModelLabel">기종명 직접 입력<input type="text" name="기종명_기타" id="customModel"></label>
+  <label id="modelSelectLabel">기종명
+    <select name="기종명" id="modelSelect" required></select>
+  </label>
+  <label id="customModelLabel">기종명 직접 입력
+    <input type="text" name="기종명_기타" id="customModel">
+  </label>
 
-  <label id="partNumberSelectLabel">품번<select name="품번" id="partNumberSelect" required></select></label>
-  <label id="customPartLabel">품번 직접 입력<input type="text" name="품번_기타" id="customPart"></label>
+  <label id="partNumberSelectLabel">품번
+    <select name="품번" id="partNumberSelect" required></select>
+  </label>
+  <label id="customPartLabel">품번 직접 입력
+    <input type="text" name="품번_기타" id="customPart">
+  </label>
 
   <label>검사수량
     <input type="number" name="검사수량" readonly inputmode="numeric" pattern="[0-9]*" required style="font-size: 28px; height: 48px;">
@@ -105,40 +142,34 @@
   <label>형상<input type="number" name="불량유형7" readonly></label>
   <label>기타<input type="number" name="불량유형8" readonly></label>
 
-  <label>불량합계<input type="number" name="불량합계" id="totalDefects" readonly></label>
-  <label>PPM<input type="number" name="PPM" id="ppm" readonly></label>
-  <label>비고<input type="text" name="비고"></label>
+  <label>불량합계
+    <input type="number" name="불량합계" id="totalDefects" readonly>
+  </label>
+  <label>PPM
+    <input type="number" name="PPM" id="ppm" readonly>
+  </label>
+  <label>비고
+    <input type="text" name="비고">
+  </label>
 
   <button type="submit">제출</button>
 </form>
 
 <!-- 숫자 키패드 팝업 -->
-<div id="numberPad" style="
-  display: none;
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  border: 2px solid #888;
-  border-radius: 10px;
-  padding: 10px;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-">
+<div id="numberPad">
   <div style="display: grid; grid-template-columns: repeat(3, 40px); gap: 1px 10px; text-align: left;">
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">1</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">2</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">3</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">4</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">5</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">6</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">7</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">8</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">9</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">←</button>
-    <button class="pad-btn" style="font-size: 25px; height: 50px;">0</button>
-    <button class="pad-done" style="font-size: 20px; height: 50px;">완</button>
+    <button class="pad-btn">1</button>
+    <button class="pad-btn">2</button>
+    <button class="pad-btn">3</button>
+    <button class="pad-btn">4</button>
+    <button class="pad-btn">5</button>
+    <button class="pad-btn">6</button>
+    <button class="pad-btn">7</button>
+    <button class="pad-btn">8</button>
+    <button class="pad-btn">9</button>
+    <button class="pad-btn">←</button>
+    <button class="pad-btn">0</button>
+    <button class="pad-done">완</button>
   </div>
 </div>
 
@@ -148,27 +179,17 @@
     "ATC": ["레이스웨이"],
     "SKF씰": ["씰"],
     "세동": ["메인플레이트"],
-    "일진": ["캡",]
+    "일진": ["캡"]
   };
 
-// ── ② 고객사별 품번 50개씩 하드코딩 (정상) ──
-//
+  // ── ② 고객사별 품번 50개씩 하드코딩 ──
   const partNumberOptions = {
-
-"ATC":["1106CA Inner","1106CA Outer","1106CB Inner","1106CB Outer","1113AA Inner","1113AA Outer","1113E Inner","1113E Outer","1124BA Inner","1124BA Outer","1156 Inner","1156 Outer","1159C Inner","1159C Outer","1159B Inner","1159B Outer","1165 Inner","1165 Outer","1179C Inner","1179C Outer","1179T Inner","1179T Outer","Inner","Outer"],
-
-"SKF씰": ["1GE0-0009-01","1570-56 외철","1513-182","1515-196-01","1520-172","1547-102 외철","1547-102 내철","1549-156","1549-157 외철","1549-158 내철","1551-189-01","1553-101 외철","1553-101 내철","1560-0018-01","1560-0018-21","1561-0017-01","1570-54 내철","1572-175 외철","1572-175 내철","1583-176(1883-626 공용)","1642-118 외철","1654-119-1 외철","1654-119 내철","1657-127","1657-130","1660-131 내철","1660-132 외철","1664-128 외철","1664-128 내철","1752-293 외철","1752-293 내철","1752-297","1753-295 외철","1753-295 내철","1755-296",
-      "1807-653-01","1814-652-01","1816-0010-01","1837-0033-01","1839-629 외철","1853-515 외철","1853-515 내철","1853-586(0106B)","1856-628 외철","1853-627 내철","1858-618 외철 (1858-619 외철공용)","1858-618 내철","1859-650-01","1859-650-02","1861-596","1888-0005"],
-
-"세동": ["JF","SV","TL","UMA"],
-
-"일진": ["AB3038-SC(씰링캡)","AB3248-SC(9BUX)","AT3037-GC(그리스캡)"]
+    "ATC": ["1106CA Inner","1106CA Outer","1106CB Inner","1106CB Outer","1113AA Inner","1113AA Outer","1113E Inner","1113E Outer","1124BA Inner","1124BA Outer","1156 Inner","1156 Outer","1159C Inner","1159C Outer","1159B Inner","1159B Outer","1165 Inner","1165 Outer","1179C Inner","1179C Outer","1179T Inner","1179T Outer","Inner","Outer"],
+    "SKF씰": ["1GE0-0009-01","1570-56 외철","1513-182","1515-196-01","1520-172","1547-102 외철","1547-102 내철","1549-156","1549-157 외철","1549-158 내철","1551-189-01","1553-101 외철","1553-101 내철","1560-0018-01","1560-0018-21","1561-0017-01","1570-54 내철","1572-175 외철","1572-175 내철","1583-176(1883-626 공용)","1642-118 외철","1654-119-1 외철","1654-119 내철","1657-127","1657-130","1660-131 내철","1660-132 외철","1664-128 외철","1664-128 내철","1752-293 외철","1752-293 내철","1752-297","1753-295 외철","1753-295 내철","1755-296","1807-653-01","1814-652-01","1816-0010-01","1837-0033-01","1839-629 외철","1853-515 외철","1853-515 내철","1853-586(0106B)","1856-628 외철","1853-627 내철","1858-618 외철 (1858-619 외철공용)","1858-618 내철","1859-650-01","1859-650-02","1861-596","1888-0005"],
+    "세동": ["JF","SV","TL","UMA"],
+    "일진": ["AB3038-SC(씰링캡)","AB3248-SC(9BUX)","AT3037-GC(그리스캡)"]
   };
 
-  // 이하 기존 스크립트 그대로 유지
-
-
-  // ── DOMContentLoaded 시점에 바인딩 ──
   document.addEventListener('DOMContentLoaded', function () {
     const clientSelect = document.getElementById("clientSelect");
     const customClientLabel = document.getElementById("customClientLabel");
@@ -189,7 +210,9 @@
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
-    document.getElementById("inspectionDate").value = `${yyyy}-${mm}-${dd}`;
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+    document.getElementById("inspectionDate").value = todayStr;
+    document.getElementById("productionDate").value = todayStr;
 
     // 고객사 변경 시
     clientSelect.addEventListener("change", function () {
@@ -247,15 +270,21 @@
     document.getElementById("inspectionForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const formData = new FormData(this);
-      // 기타 처리...
-      // (원본 코드와 동일)
 
-      fetch("https://script.google.com/macros/s/AKfycby8BOs1sVm9RSK104iUfcTQHTbaCiCmBQCy0YXUnptHt8mY9bo3N8QJiXDU8M9NiwFJog/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbwKafEXKT-n3_urQAsa9ZrRUysk6p-609HT5wNYGoaNXtqCMnKJ7CM4vFOJBhCd_KnD8Q/exec", {
         method: "POST",
         body: formData
       })
       .then(res => res.text())
-      .then(() => alert("제출이 완료되었습니다."))
+      .then(() => {
+        alert("제출이 완료되었습니다.");
+        // 생산일자 초기화 (오늘 날짜 유지)
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const d = String(now.getDate()).padStart(2, '0');
+        document.getElementById("productionDate").value = `${y}-${m}-${d}`;
+      })
       .catch(() => alert("제출에 실패했습니다. 다시 시도해주세요."));
     });
 
